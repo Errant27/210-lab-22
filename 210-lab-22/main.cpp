@@ -24,7 +24,7 @@ private:
 public:
     // constructor
     DoublyLinkedList() { head = nullptr; tail = nullptr; }
-//**************************************************************************************************************
+
     void push_back(int value) {
         Node* newNode = new Node(value);
         if (!tail)  // if there's no tail, the list is empty
@@ -35,7 +35,7 @@ public:
             tail = newNode;
         }
     }
-//**************************************************************************************************************
+
     void push_front(int value) {
         Node* newNode = new Node(value);
         if (!head)  // if there's no head, the list is empty
@@ -46,7 +46,7 @@ public:
             head = newNode;
         }
     }
-//**************************************************************************************************************
+
     void insert_after(int value, int position) {
         if (position < 0) {
             cout << "Position must be >= 0." << endl;
@@ -77,7 +77,7 @@ public:
             tail = newNode; // Inserting at the end
         temp->next = newNode;
     }
-//**************************************************************************************************************
+
     void delete_node(int value) {
         if (!head) return; // Empty list
 
@@ -101,7 +101,7 @@ public:
 
         delete temp;
     }
-//**************************************************************************************************************
+
     void delete_pos(int pos) {
         if (!head) return; // Empty list
 
@@ -129,11 +129,29 @@ public:
         }
         delete temp;
     }
-//**************************************************************************************************************
-    void pop_front() {
 
+    void pop_front() {
+        if (!head) return; // Empty list
+
+        Node* temp = head;
+        
+        head = temp->next;    // Deleting the head
+        head->prev = nullptr;
+        
+        delete temp;
     }
-//**************************************************************************************************************
+
+    void pop_back() {
+        if (!head) return; // Empty list
+
+        Node* temp = tail;
+        
+        tail = temp->prev;    // Deleting the tail
+        tail->next = nullptr;
+        
+        delete temp;
+    }
+
     void print() {
         Node* current = head;
         if (!current) return;
@@ -143,7 +161,7 @@ public:
         }
         cout << endl;
     }
-//**************************************************************************************************************
+
     void print_reverse() {
         Node* current = tail;
         if (!current) return;
@@ -162,7 +180,7 @@ public:
         }
     }
 };
-//**************************************************************************************************************
+
 // Driver program
 int main() {
     int pos;
@@ -179,7 +197,8 @@ int main() {
     
     cout << "Which position should be deleted?: ";
     cin >> pos;
-    list.delete_pos(pos);
+//    list.pop_back();
+//    list.pop_front();
     cout << "Updated List: ";
     list.print();
 
