@@ -79,38 +79,38 @@ public:
     }
 
     void delete_val(int value) {
-        if (!head) return; // Empty list
+        if (!head) return;    // Return if empty list
         
         Node* temp = head;
-        while (temp && temp->data != value)
+        while (temp && temp->data != value)    // Moves to position based on val
             temp = temp->next;
     
-        if (!temp) {
+        if (!temp) {    // Value not found
             cout << "Value not found" << endl;
-            return; // Value not found
+            return;
         }
 
         if (temp->prev) {
-            temp->prev->next = temp->next;
+            temp->prev->next = temp->next;    // adjusts list to isolate node to be deleted
         } else {
-            head = temp->next; // Deleting the head
+            head = temp->next;    // deletes head
         }
 
         if (temp->next) {
-            temp->next->prev = temp->prev;
+            temp->next->prev = temp->prev;    // adjusts list to isolate node to be deleted
         } else {
-            tail = temp->prev; // Deleting the tail
+            tail = temp->prev; // deletes tail
         }
         
-        delete temp;
+        delete temp;    // node deleted
     }
 
     void delete_pos(int pos) {
-        if (!head) return; // Empty list
+        if (!head) return;    // return if empty list
 
         Node* temp = head;
         
-        for (int i = 0; i < pos - 1; i++) {
+        for (int i = 0; i < pos - 1; i++) {    // Moves to location based on pos
             temp = temp->next;
             if (!temp) {
                 cout << "Position not found" << endl;
@@ -119,43 +119,42 @@ public:
         }
 
         if (temp->prev) {
-            temp->prev->next = temp->next;
-        }
-        else {
-            head = temp->next;    // Deleting the head
-            head->prev = nullptr;
+            temp->prev->next = temp->next;    // adjusts list to isolate node to be deleted
+        } else {
+            head = temp->next;    // sets head to one position ahead
+            head->prev = nullptr;    // assigns head prev to nullptr
         }
 
         if (temp->next) {
-            temp->next->prev = temp->prev;
+            temp->next->prev = temp->prev;    // adjusts list to isolate node to be deleted
         } else {
-            tail = temp->prev;    // Deleting the tail
-            tail->next = nullptr;
+            tail = temp->prev;    // sets tail to one position previous
+            tail->next = nullptr;   // assigns head next to nullptr
         }
         
-        delete temp;
+        delete temp;    // deletes node
     }
 
     void pop_front() {
-        if (!head) return; // Empty list
+        if (!head) return;    // return if empty list
 
         Node* temp = head;
         
-        head = temp->next;    // Deleting the head
-        head->prev = nullptr;
+        head = temp->next;    // sets head to one position ahead
+        head->prev = nullptr;    // assigns head prev to nullptr
         
-        delete temp;
+        delete temp;    // deletes node
     }
 
     void pop_back() {
-        if (!head) return; // Empty list
+        if (!head) return;    // return if empty list
 
         Node* temp = tail;
         
-        tail = temp->prev;    // Deleting the tail
-        tail->next = nullptr;
+        tail = temp->prev;    // sets tail to one position previous
+        tail->next = nullptr;   // assigns head next to nullptr
         
-        delete temp;
+        delete temp;    // deletes node
     }
 
     void print() {
@@ -202,23 +201,26 @@ int main() {
     cout << "List backward: ";
     list.print_reverse();
     
-    cout << "Which value should be deleted?: ";
+    cout << "Which value should be deleted?: ";    //user prompted to enter which value they want to remove
     cin >> val;
     list.delete_val(val);
     cout << "Updated List: ";
     list.print();
     
-    cout << "Which position should be deleted? Enter a value no less than 1: ";
+    //user prompted to enter which position they want to remove
+    cout << "Which position should be deleted? Enter a whole number no less than 1: ";
     cin >> pos;
-    while(pos < 1) {
-        cout << "Enter a value no less than 1: ";
+    while(pos < 1 || cin.fail()) {
+        cout << "Enter a whole number no less than 1: ";
+        cin.clear();
+        cin.ignore(50, '\n');
         cin >> pos;
     }
     list.delete_pos(pos);
     
-    cout << "Popping the back..." << endl;
+    cout << "Popping the back..." << endl;    // pop back function call
     list.pop_back();
-    cout << "Popping the front..." << endl;
+    cout << "Popping the front..." << endl;    // pop front function call
     list.pop_front();
     
     cout << "Updated List: ";
