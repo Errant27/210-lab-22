@@ -78,14 +78,17 @@ public:
         temp->next = newNode;
     }
 
-    void delete_node(int value) {
+    void delete_val(int value) {
         if (!head) return; // Empty list
-
+        
         Node* temp = head;
         while (temp && temp->data != value)
             temp = temp->next;
-
-        if (!temp) return; // Value not found
+    
+        if (!temp) {
+            cout << "Value not found" << endl;
+            return; // Value not found
+        }
 
         if (temp->prev) {
             temp->prev->next = temp->next;
@@ -98,7 +101,7 @@ public:
         } else {
             tail = temp->prev; // Deleting the tail
         }
-
+        
         delete temp;
     }
 
@@ -107,10 +110,13 @@ public:
 
         Node* temp = head;
         
-        for (int i = 0; i < pos - 1; i++)
+        for (int i = 0; i < pos - 1; i++) {
             temp = temp->next;
-
-        if (!temp) return; // Value not found
+            if (!temp) {
+                cout << "Position not found" << endl;
+                return; // Value not found
+            }
+        }
 
         if (temp->prev) {
             temp->prev->next = temp->next;
@@ -122,11 +128,11 @@ public:
 
         if (temp->next) {
             temp->next->prev = temp->prev;
-        }
-        else {
+        } else {
             tail = temp->prev;    // Deleting the tail
             tail->next = nullptr;
         }
+        
         delete temp;
     }
 
@@ -184,6 +190,7 @@ public:
 // Driver program
 int main() {
     int pos;
+    int val;
     DoublyLinkedList list;
     int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
 
@@ -195,10 +202,25 @@ int main() {
     cout << "List backward: ";
     list.print_reverse();
     
-    cout << "Which position should be deleted?: ";
+    cout << "Which value should be deleted?: ";
+    cin >> val;
+    list.delete_val(val);
+    cout << "Updated List: ";
+    list.print();
+    
+    cout << "Which position should be deleted? Enter a value no less than 1: ";
     cin >> pos;
-//    list.pop_back();
-//    list.pop_front();
+    while(pos < 1) {
+        cout << "Enter a value no less than 1: ";
+        cin >> pos;
+    }
+    list.delete_pos(pos);
+    
+    cout << "Popping the back..." << endl;
+    list.pop_back();
+    cout << "Popping the front..." << endl;
+    list.pop_front();
+    
     cout << "Updated List: ";
     list.print();
 
